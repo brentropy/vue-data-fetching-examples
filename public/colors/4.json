@@ -1,0 +1,127 @@
+{
+  "colors": [
+    {
+      "name": "indigo",
+      "red": 75,
+      "green": 0,
+      "blue": 130
+    },
+    {
+      "name": "ivory",
+      "red": 255,
+      "green": 255,
+      "blue": 240
+    },
+    {
+      "name": "khaki",
+      "red": 240,
+      "green": 230,
+      "blue": 140
+    },
+    {
+      "name": "lavender",
+      "red": 230,
+      "green": 230,
+      "blue": 250
+    },
+    {
+      "name": "lavenderblush",
+      "red": 255,
+      "green": 240,
+      "blue": 245
+    },
+    {
+      "name": "lawngreen",
+      "red": 124,
+      "green": 252,
+      "blue": 0
+    },
+    {
+      "name": "lemonchiffon",
+      "red": 255,
+      "green": 250,
+      "blue": 205
+    },
+    {
+      "name": "lightblue",
+      "red": 173,
+      "green": 216,
+      "blue": 230
+    },
+    {
+      "name": "lightcoral",
+      "red": 240,
+      "green": 128,
+      "blue": 128
+    },
+    {
+      "name": "lightcyan",
+      "red": 224,
+      "green": 255,
+      "blue": 255
+    },
+    {
+      "name": "lightgoldenrodyellow",
+      "red": 250,
+      "green": 250,
+      "blue": 210
+    },
+    {
+      "name": "lightgray",
+      "red": 211,
+      "green": 211,
+      "blue": 211
+    },
+    {
+      "name": "lightgreen",
+      "red": 144,
+      "green": 238,
+      "blue": 144
+    },
+    {
+      "name": "lightgrey",
+      "red": 211,
+      "green": 211,
+      "blue": 211
+    },
+    {
+      "name": "lightpink",
+      "red": 255,
+      "green": 182,
+      "blue": 193
+    },
+    {
+      "name": "lightsalmon",
+      "red": 255,
+      "green": 160,
+      "blue": 122
+    },
+    {
+      "name": "lightseagreen",
+      "red": 32,
+      "green": 178,
+      "blue": 170
+    },
+    {
+      "name": "lightskyblue",
+      "red": 135,
+      "green": 206,
+      "blue": 250
+    },
+    {
+      "name": "lightslategray",
+      "red": 119,
+      "green": 136,
+      "blue": 153
+    },
+    {
+      "name": "lightslategrey",
+      "red": 119,
+      "green": 136,
+      "blue": 153
+    }
+  ],
+  "meta": {
+    "next": 5
+  }
+}

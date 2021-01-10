@@ -1,0 +1,127 @@
+{
+  "colors": [
+    {
+      "name": "navajowhite",
+      "red": 255,
+      "green": 222,
+      "blue": 173
+    },
+    {
+      "name": "navy",
+      "red": 0,
+      "green": 0,
+      "blue": 128
+    },
+    {
+      "name": "oldlace",
+      "red": 253,
+      "green": 245,
+      "blue": 230
+    },
+    {
+      "name": "olive",
+      "red": 128,
+      "green": 128,
+      "blue": 0
+    },
+    {
+      "name": "olivedrab",
+      "red": 107,
+      "green": 142,
+      "blue": 35
+    },
+    {
+      "name": "orange",
+      "red": 255,
+      "green": 165,
+      "blue": 0
+    },
+    {
+      "name": "orangered",
+      "red": 255,
+      "green": 69,
+      "blue": 0
+    },
+    {
+      "name": "orchid",
+      "red": 218,
+      "green": 112,
+      "blue": 214
+    },
+    {
+      "name": "palegoldenrod",
+      "red": 238,
+      "green": 232,
+      "blue": 170
+    },
+    {
+      "name": "palegreen",
+      "red": 152,
+      "green": 251,
+      "blue": 152
+    },
+    {
+      "name": "paleturquoise",
+      "red": 175,
+      "green": 238,
+      "blue": 238
+    },
+    {
+      "name": "palevioletred",
+      "red": 219,
+      "green": 112,
+      "blue": 147
+    },
+    {
+      "name": "papayawhip",
+      "red": 255,
+      "green": 239,
+      "blue": 213
+    },
+    {
+      "name": "peachpuff",
+      "red": 255,
+      "green": 218,
+      "blue": 185
+    },
+    {
+      "name": "peru",
+      "red": 205,
+      "green": 133,
+      "blue": 63
+    },
+    {
+      "name": "pink",
+      "red": 255,
+      "green": 192,
+      "blue": 203
+    },
+    {
+      "name": "plum",
+      "red": 221,
+      "green": 160,
+      "blue": 221
+    },
+    {
+      "name": "powderblue",
+      "red": 176,
+      "green": 224,
+      "blue": 230
+    },
+    {
+      "name": "purple",
+      "red": 128,
+      "green": 0,
+      "blue": 128
+    },
+    {
+      "name": "red",
+      "red": 255,
+      "green": 0,
+      "blue": 0
+    }
+  ],
+  "meta": {
+    "next": 7
+  }
+}

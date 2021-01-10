@@ -1,0 +1,127 @@
+{
+  "colors": [
+    {
+      "name": "aliceblue",
+      "red": 240,
+      "green": 248,
+      "blue": 255
+    },
+    {
+      "name": "antiquewhite",
+      "red": 250,
+      "green": 235,
+      "blue": 215
+    },
+    {
+      "name": "aqua",
+      "red": 0,
+      "green": 255,
+      "blue": 255
+    },
+    {
+      "name": "aquamarine",
+      "red": 127,
+      "green": 255,
+      "blue": 212
+    },
+    {
+      "name": "azure",
+      "red": 240,
+      "green": 255,
+      "blue": 255
+    },
+    {
+      "name": "beige",
+      "red": 245,
+      "green": 245,
+      "blue": 220
+    },
+    {
+      "name": "bisque",
+      "red": 255,
+      "green": 228,
+      "blue": 196
+    },
+    {
+      "name": "black",
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    },
+    {
+      "name": "blanchedalmond",
+      "red": 255,
+      "green": 235,
+      "blue": 205
+    },
+    {
+      "name": "blue",
+      "red": 0,
+      "green": 0,
+      "blue": 255
+    },
+    {
+      "name": "blueviolet",
+      "red": 138,
+      "green": 43,
+      "blue": 226
+    },
+    {
+      "name": "brown",
+      "red": 165,
+      "green": 42,
+      "blue": 42
+    },
+    {
+      "name": "burlywood",
+      "red": 222,
+      "green": 184,
+      "blue": 135
+    },
+    {
+      "name": "cadetblue",
+      "red": 95,
+      "green": 158,
+      "blue": 160
+    },
+    {
+      "name": "chartreuse",
+      "red": 127,
+      "green": 255,
+      "blue": 0
+    },
+    {
+      "name": "chocolate",
+      "red": 210,
+      "green": 105,
+      "blue": 30
+    },
+    {
+      "name": "coral",
+      "red": 255,
+      "green": 127,
+      "blue": 80
+    },
+    {
+      "name": "cornflowerblue",
+      "red": 100,
+      "green": 149,
+      "blue": 237
+    },
+    {
+      "name": "cornsilk",
+      "red": 255,
+      "green": 248,
+      "blue": 220
+    },
+    {
+      "name": "crimson",
+      "red": 220,
+      "green": 20,
+      "blue": 60
+    }
+  ],
+  "meta": {
+    "next": 2
+  }
+}
