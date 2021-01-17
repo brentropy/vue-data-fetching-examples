@@ -1,12 +1,6 @@
 {
   "colors": [
     {
-      "name": "transparent",
-      "red": 0,
-      "green": 0,
-      "blue": 0
-    },
-    {
       "name": "turquoise",
       "red": 64,
       "green": 224,
@@ -56,6 +50,7 @@
     }
   ],
   "meta": {
-    "next": null
+    "next": null,
+    "prev": 7
   }
 }

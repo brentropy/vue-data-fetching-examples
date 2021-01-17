@@ -122,6 +122,7 @@
     }
   ],
   "meta": {
-    "next": 2
+    "next": 2,
+    "prev": null
   }
 }
