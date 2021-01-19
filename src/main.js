@@ -4,7 +4,6 @@ import VueRouter from "vue-router";
 import VueKwery from "vue-kwery";
 
 import App from "./app.vue";
-import { createClient } from "./client";
 import { routes } from "./routes";
 import { createStore } from "./store";
 import { queries, mutations } from "./vue-kwery/vue-kwery.resolvers";
@@ -14,11 +13,7 @@ Vue.use(VueRouter);
 
 Vue.config.productionTip = false;
 
-const client = createClient({
-  base: process.env.BASE_URL
-});
-
-Vue.use(VueKwery, { queries, mutations, client });
+Vue.use(VueKwery, { queries, mutations });
 
 const store = createStore({
   baseUrl: process.env.BASE_URL
