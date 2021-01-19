@@ -1,3 +1,6 @@
+// This would all be library code, but it is just included as a module here
+// to simplify the proof of concept.
+
 import Vue from "vue";
 
 export const QUERY = "query";
