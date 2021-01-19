@@ -13,5 +13,14 @@ export const routes = [
       import(
         /* webpackChunkName: "vuex-query" */ "./vuex-query/vuex-query.page.vue"
       )
+  },
+  {
+    path: "/vue-kwery",
+    name: "Vue Kwery",
+    component: () =>
+      import(
+        /* webpackChunkName: "vuex-query" */ "./vue-kwery/vue-kwery.page.vue"
+      )
   }
+
 ];

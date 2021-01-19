@@ -1,17 +1,22 @@
 import Vuex from "vuex";
+import { createClient } from "./client";
 import { vuexQueryModule } from "./vuex-query/vuex-query.module";
 
-export const createStore = ({ client }) =>
+export const createStore = ({ baseUrl }) =>
   new Vuex.Store({
-    state: {},
+    state: {
+      config: {
+        baseUrl
+      }
+    },
     mutations: {},
     actions: {},
     modules: {
       api: vuexQueryModule
     },
     getters: {
-      client() {
-        return client;
-      }
+      client({ config }) {
+        return createClient({ base: config.baseUrl });
+      },
     }
   });

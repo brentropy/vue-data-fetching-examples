@@ -2,7 +2,8 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/vuex-query">Vuex Query</router-link>
+      <router-link to="/vuex-query">Vuex Query</router-link> |
+      <router-link to="/vue-kwery">Vue Kwery</router-link>
     </div>
     <router-view />
   </div>
