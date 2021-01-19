@@ -3,11 +3,11 @@
 
 import Vue from "vue";
 
-export const QUERY = "query";
-export const INVALIDATE = "invalidate";
-export const INVALIDATE_WHERE = "invalidateWhere";
-export const UPDATE_CACHE = "updateCache";
-export const MARK_IF_STALE = "markIfStale";
+export const QUERY = "vuex-query/query";
+export const INVALIDATE = "vuex-query/invalidate";
+export const INVALIDATE_WHERE = "vuex-query/invalidateWhere";
+export const UPDATE_CACHE = "vuex-query/updateCache";
+export const MARK_IF_STALE = "vuex-query/markIfStale";
 
 export function createQueryModule({ queries, ttl, ...module }) {
   const cache = {};
@@ -149,7 +149,7 @@ export function mapQueries(path, map) {
         rootState: this.$store.state,
         rootGetters: this.$store.getters
       };
-      return actions.query(context, { query: key, payload });
+      return actions[QUERY](context, { query: key, payload });
     };
   });
   return computed;
