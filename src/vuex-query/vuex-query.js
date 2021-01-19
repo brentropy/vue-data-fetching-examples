@@ -6,7 +6,7 @@ export const INVALIDATE_WHERE = "invalidateWhere";
 export const UPDATE_CACHE = "updateCache";
 export const MARK_IF_STALE = "markIfStale";
 
-export function createVuexQueryModule({ queries, ttl, ...module }) {
+export function createQueryModule({ queries, ttl, ...module }) {
   const cache = {};
   Object.keys(queries).forEach(key => (cache[key] = {}));
 
