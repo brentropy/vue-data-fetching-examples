@@ -10,9 +10,23 @@ export const INVALIDATE_WHERE = "vuex-query/invalidateWhere";
 export const UPDATE_CACHE = "vuex-query/updateCache";
 export const MARK_IF_STALE = "vuex-query/markIfStale";
 
-export function createQueryModule({ queries, ttl, ...module }) {
+const DEFAULT_TTL = 60000;
+
+export function createQueryModule({
+  queries = {},
+  ttl = DEFAULT_TTL,
+  ...module
+}) {
   const cache = {};
-  Object.keys(queries).forEach(key => (cache[key] = {}));
+  Object.keys(queries).forEach(query => {
+    cache[query] = {};
+    if (typeof queries[query] === "function") {
+      queries[query] = {
+        default: null,
+        action: queries[query]
+      };
+    }
+  });
 
   const assertQuery = query => {
     if (!queries[query]) {

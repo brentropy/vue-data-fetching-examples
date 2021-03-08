@@ -1,24 +1,27 @@
 import { createQueryModule, INVALIDATE } from "./vuex-query";
 
+const client = context => context.rootGetters.client;
+
 export const vuexQueryModule = createQueryModule({
   ttl: 5 * 60 * 1000,
+
   namespaced: true,
+
   queries: {
-    colors: {
-      ttl: 1000,
-      default: { colors: [], meta: { next: null, prev: null } },
-      action({ rootGetters: { client } }, { page }) {
-        return client.get(`/colors/${page}.json`).then(resp => resp.data);
-      }
+    colors(context, { page }) {
+      return client(context)
+        .get(`/colors/${page}.json`)
+        .then(resp => resp.data);
     }
   },
+
   actions: {
-    // since this is static this endpoint does not actually exist
-    // this is just meant to illustrate cache invalidation for updates
-    deleteColor({ dispatch, rootGetters: { client } }, { name }) {
-      return client.delete(`/colors/${name}`).then(() => {
-        dispatch(INVALIDATE, { query: "colors" });
-      });
+    deleteColor(context, { name }) {
+      return client(context)
+        .delete(`/colors/${name}`)
+        .then(() => {
+          context.dispatch(INVALIDATE, { query: "colors" });
+        });
     }
   }
 });
