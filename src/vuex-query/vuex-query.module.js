@@ -5,6 +5,7 @@ export const vuexQueryModule = createQueryModule({
   namespaced: true,
   queries: {
     colors: {
+      ttl: 1000,
       default: { colors: [], meta: { next: null, prev: null } },
       action({ rootGetters: { client } }, { page }) {
         return client.get(`/colors/${page}.json`).then(resp => resp.data);

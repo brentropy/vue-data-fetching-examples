@@ -4,6 +4,7 @@
 import Vue from "vue";
 
 export const QUERY = "vuex-query/query";
+export const RESULT = "vuex-query/result";
 export const INVALIDATE = "vuex-query/invalidate";
 export const INVALIDATE_WHERE = "vuex-query/invalidateWhere";
 export const UPDATE_CACHE = "vuex-query/updateCache";
@@ -12,6 +13,12 @@ export const MARK_IF_STALE = "vuex-query/markIfStale";
 export function createQueryModule({ queries, ttl, ...module }) {
   const cache = {};
   Object.keys(queries).forEach(key => (cache[key] = {}));
+
+  const assertQuery = query => {
+    if (!queries[query]) {
+      throw Error(`Query "${query}" is not defined.`);
+    }
+  };
 
   return {
     ...module,
@@ -24,23 +31,26 @@ export function createQueryModule({ queries, ttl, ...module }) {
     actions: {
       ...module.actions,
 
-      [QUERY](context, { query, payload = {} }) {
+      [QUERY](context, { query, payload = {}, key }) {
+        assertQuery(query);
         const now = Date.now();
-        const key = stableValueHash(payload);
-        const cache = context.state.cache[query];
+        key = key || stableValueHash(payload);
+        const entry = context.getters[RESULT](query, key);
 
-        const entry = cache[key] || {
-          data: queries[query].default,
-          loading: false,
-          error: null,
-          expiresAt: 0
-        };
-
-        if (!cache[key]) {
-          context.commit(UPDATE_CACHE, { query, payload, props: entry });
+        if (!entry) {
+          context.commit(UPDATE_CACHE, {
+            query,
+            payload,
+            props: {
+              data: queries[query].default,
+              loading: false,
+              error: null,
+              expiresAt: 0
+            }
+          });
         }
 
-        if (entry.expiresAt <= now) {
+        if (!entry || entry.expiresAt <= now) {
           const queryTtl = queries[query].ttl || ttl;
           const expiresAt = now + queryTtl;
           setTimeout(
@@ -69,8 +79,6 @@ export function createQueryModule({ queries, ttl, ...module }) {
               });
             });
         }
-
-        return cache[key];
       },
 
       [INVALIDATE]({ dispatch, commit, state }, { query, key }) {
@@ -127,29 +135,45 @@ export function createQueryModule({ queries, ttl, ...module }) {
           Vue.set(cache, key, { ...cache[key] });
         }
       }
+    },
+
+    getters: {
+      ...module.getters,
+
+      [RESULT](state) {
+        return (query, key) => {
+          assertQuery(query);
+          return state.cache[query][key];
+        };
+      }
     }
   };
 }
 
-export function mapQueries(path, map) {
-  const pathArr = Array.isArray(path) ? path : [path];
+export function mapQueries(namespace, map) {
+  if (arguments.length === 1) {
+    map = namespace;
+    namespace = null;
+  }
+  const prefix = namespace ? `${namespace}/` : "";
   const computed = {};
-  const keys = Object.keys(map);
-  keys.forEach(key => {
-    computed[key] = function() {
-      const payload = map[key].call(this);
-      const module = this.$store._modules.get(pathArr);
-      const { actions } = module._rawModule;
-      const local = module.context;
-      const context = {
-        dispatch: local.dispatch,
-        commit: local.commit,
-        getters: local.getters,
-        state: local.state,
-        rootState: this.$store.state,
-        rootGetters: this.$store.getters
-      };
-      return actions[QUERY](context, { query: key, payload });
+  const queries = Object.keys(map);
+  queries.forEach(query => {
+    const stateKey = `${query}State`;
+    computed[stateKey] = function() {
+      const payload = map[query].call(this);
+      const key = stableValueHash(payload);
+      this.$store.dispatch(`${prefix}${QUERY}`, { query, payload, key });
+      return this.$store.getters[`${prefix}${RESULT}`](query, key);
+    };
+    computed[query] = function() {
+      return this[stateKey].data;
+    };
+    computed[`${query}Loading`] = function() {
+      return this[stateKey].loading;
+    };
+    computed[`${query}Error`] = function() {
+      return this[stateKey].error;
     };
   });
   return computed;

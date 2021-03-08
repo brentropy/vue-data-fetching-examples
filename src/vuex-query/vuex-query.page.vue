@@ -1,10 +1,10 @@
 <template>
   <div>
     <h1>Vuex Query</h1>
-    <color-table :colors="colors.data.colors" :loading="colors.loading" />
+    <color-table :colors="colors.colors" :loading="colorsLoading" />
     <pagination
-      :next="colors.data.meta.next"
-      :prev="colors.data.meta.prev"
+      :next="colors.meta.next"
+      :prev="colors.meta.prev"
       @update:page="page = $event"
     />
   </div>
@@ -15,12 +15,6 @@ import ColorTable from "../shared/color-table.component.vue";
 import Pagination from "../shared/pagination.component.vue";
 import { mapQueries } from "./vuex-query";
 
-const apiQueries = mapQueries("api", {
-  colors() {
-    return { page: this.page };
-  }
-});
-
 export default {
   components: {
     "color-table": ColorTable,
@@ -30,7 +24,11 @@ export default {
     page: 1
   }),
   computed: {
-    ...apiQueries
+    ...mapQueries("api", {
+      colors() {
+        return { page: this.page };
+      }
+    })
   }
 };
 </script>

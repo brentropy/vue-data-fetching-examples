@@ -9,6 +9,9 @@
       </tr>
     </thead>
     <tbody>
+      <tr v-if="loading && colors.length === 0">
+        <td colspan="4">Loading</td>
+      </tr>
       <tr v-for="color in colors" :key="color.name">
         <td>{{ color.name }}</td>
         <td>
@@ -62,10 +65,6 @@ export default {
 <style scoped>
 table {
   width: 100%;
-}
-
-table.loading {
-  opacity: 0.5;
 }
 
 th {
