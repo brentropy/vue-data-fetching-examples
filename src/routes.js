@@ -22,5 +22,4 @@ export const routes = [
         /* webpackChunkName: "vuex-query" */ "./vue-kwery/vue-kwery.page.vue"
       )
   }
-
 ];

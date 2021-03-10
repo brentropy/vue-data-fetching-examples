@@ -17,6 +17,6 @@ export const createStore = ({ baseUrl }) =>
     getters: {
       client({ config }) {
         return createClient({ base: config.baseUrl });
-      },
+      }
     }
   });

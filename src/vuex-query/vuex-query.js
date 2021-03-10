@@ -1,6 +1,3 @@
-// This would all be library code, but it is just included as a module here
-// to simplify the proof of concept.
-
 import Vue from "vue";
 
 export const QUERY = "vuex-query/query";
@@ -48,7 +45,7 @@ export function createQueryModule({
       [QUERY](context, { query, payload = {}, key }) {
         assertQuery(query);
         const now = Date.now();
-        key = key || stableValueHash(payload);
+        key = key || payloadToKey(payload);
         const entry = context.getters[RESULT](query, key);
 
         if (!entry) {
@@ -138,7 +135,7 @@ export function createQueryModule({
 
       [UPDATE_CACHE](state, { query, payload, props }) {
         const cache = state.cache[query];
-        const key = stableValueHash(payload);
+        const key = payloadToKey(payload);
         Vue.set(cache, key, { ...cache[key], ...props });
       },
 
@@ -176,7 +173,7 @@ export function mapQueries(namespace, map) {
     const stateKey = `${query}State`;
     computed[stateKey] = function() {
       const payload = map[query].call(this);
-      const key = stableValueHash(payload);
+      const key = payloadToKey(payload);
       this.$store.dispatch(`${prefix}${QUERY}`, { query, payload, key });
       return this.$store.getters[`${prefix}${RESULT}`](query, key);
     };
@@ -211,7 +208,7 @@ function objectContains(obj, props) {
 }
 
 // Copied from https://github.com/tannerlinsley/react-query
-function stableValueHash(value) {
+export function payloadToKey(value) {
   return JSON.stringify(value, (_, val) =>
     isPlainObject(val)
       ? Object.keys(val)
