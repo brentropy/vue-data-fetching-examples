@@ -12,6 +12,7 @@ const DEFAULT_TTL = 60000;
 export function createQueryModule({
   queries = {},
   ttl = DEFAULT_TTL,
+  refetch = true,
   ...module
 }) {
   const cache = {};
@@ -64,11 +65,15 @@ export function createQueryModule({
         if (!entry || entry.expiresAt <= now) {
           const queryTtl = queries[query].ttl || ttl;
           const expiresAt = now + queryTtl;
+          const queryRefetch =
+            queries[query].refetch == null ? refetch : queries[query].refetch;
 
-          setTimeout(
-            () => context.commit(MARK_IF_STALE, { query, key }),
-            queryTtl
-          );
+          if (queryRefetch) {
+            setTimeout(
+              () => context.commit(MARK_IF_STALE, { query, key }),
+              queryTtl
+            );
+          }
 
           context.commit(UPDATE_CACHE, {
             query,

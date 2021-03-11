@@ -29,6 +29,11 @@ describe("vuex-query", () => {
       },
       short: jest.fn().mockResolvedValue("short"),
       error: jest.fn().mockRejectedValue("error"),
+      noRefetch: {
+        default: null,
+        refetch: false,
+        action: jest.fn().mockResolvedValue("noRefetch"),
+      }
     };
     module = createQueryModule({ ttl, queries });
     state = module.state();
@@ -229,6 +234,28 @@ describe("vuex-query", () => {
       query(context, { query: "search", payload });
       jest.advanceTimersByTime(ttl);
       expect(context.commit).toBeCalledWith(MARK_IF_STALE, {
+        query: "search",
+        key: payloadToKey(payload),
+      });
+    });
+
+    test("doesn't mark if stale if refetch is disable for module", () => {
+      module = createQueryModule({ ttl, queries, refetch: false });
+      query = module.actions[QUERY];
+      const payload = { q: "a" };
+      query(context, { query: "search", payload });
+      jest.advanceTimersByTime(ttl);
+      expect(context.commit).not.toBeCalledWith(MARK_IF_STALE, {
+        query: "search",
+        key: payloadToKey(payload),
+      });
+    });
+
+    test("doesn't mark if stale if refetch is disable for query", () => {
+      const payload = { q: "a" };
+      query(context, { query: "noRefetch", payload });
+      jest.advanceTimersByTime(ttl);
+      expect(context.commit).not.toBeCalledWith(MARK_IF_STALE, {
         query: "search",
         key: payloadToKey(payload),
       });
