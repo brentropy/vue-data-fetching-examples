@@ -15,17 +15,17 @@ export function createQueryModule({
   ...module
 }) {
   const cache = {};
-  Object.keys(queries).forEach(query => {
+  Object.keys(queries).forEach((query) => {
     cache[query] = {};
     if (typeof queries[query] === "function") {
       queries[query] = {
         default: null,
-        action: queries[query]
+        action: queries[query],
       };
     }
   });
 
-  const assertQuery = query => {
+  const assertQuery = (query) => {
     if (!queries[query]) {
       throw Error(`Query "${query}" is not defined.`);
     }
@@ -36,7 +36,7 @@ export function createQueryModule({
 
     state: () => ({
       ...(module.state ? module.state() : null),
-      cache
+      cache,
     }),
 
     actions: {
@@ -51,48 +51,50 @@ export function createQueryModule({
         if (!entry) {
           context.commit(UPDATE_CACHE, {
             query,
-            payload,
+            key,
             props: {
               data: queries[query].default,
               loading: false,
               error: null,
-              expiresAt: 0
-            }
+              expiresAt: now,
+            },
           });
         }
 
         if (!entry || entry.expiresAt <= now) {
           const queryTtl = queries[query].ttl || ttl;
           const expiresAt = now + queryTtl;
+
           setTimeout(
             () => context.commit(MARK_IF_STALE, { query, key }),
             queryTtl
           );
+
           context.commit(UPDATE_CACHE, {
             query,
-            payload,
-            props: { loading: true, expiresAt }
+            key,
+            props: { loading: true, expiresAt },
           });
-          queries[query]
-            .action(context, payload)
-            .then(data => {
+
+          queries[query].action(context, payload)
+            .then((data) => {
               context.commit(UPDATE_CACHE, {
                 query,
-                payload,
-                props: { loading: false, error: null, data }
+                key,
+                props: { loading: false, error: null, data },
               });
             })
-            .catch(error => {
+            .catch((error) => {
               context.commit(UPDATE_CACHE, {
                 query,
-                payload,
-                props: { loading: false, error }
+                key,
+                props: { loading: false, error },
               });
             });
         }
       },
 
-      [INVALIDATE]({ dispatch, commit, state }, { query, key }) {
+      [INVALIDATE]({ dispatch, commit, state }, { query, key, payload } = {}) {
         if (!query) {
           const queries = Object.keys(state.cache);
           for (const query of queries) {
@@ -100,21 +102,23 @@ export function createQueryModule({
           }
           return;
         }
-        if (!key) {
+        if (!key && !payload) {
           const keys = Object.keys(state.cache[query]);
           for (const key of keys) {
             dispatch(INVALIDATE, { query, key });
           }
           return;
         }
-        if (typeof key === "string") {
-          key = JSON.parse(key);
+        if (key) {
+          payload = JSON.parse(key);
+        } else {
+          key = payloadToKey(payload);
         }
         if (state.cache[query] && state.cache[query][key]) {
           commit(UPDATE_CACHE, {
             query,
-            payload: key,
-            props: { expiresAt: Date.now(), stale: true }
+            key,
+            props: { expiresAt: Date.now() },
           });
         }
       },
@@ -124,18 +128,17 @@ export function createQueryModule({
         for (const key of keys) {
           const payload = JSON.parse(key);
           if (objectContains(payload, match)) {
-            dispatch(INVALIDATE, { query, payload: payload });
+            dispatch(INVALIDATE, { query, key });
           }
         }
-      }
+      },
     },
 
     mutations: {
       ...module.mutations,
 
-      [UPDATE_CACHE](state, { query, payload, props }) {
+      [UPDATE_CACHE](state, { query, key, props }) {
         const cache = state.cache[query];
-        const key = payloadToKey(payload);
         Vue.set(cache, key, { ...cache[key], ...props });
       },
 
@@ -145,7 +148,7 @@ export function createQueryModule({
         if (cache[key] && cache[key].expiresAt <= now) {
           Vue.set(cache, key, { ...cache[key] });
         }
-      }
+      },
     },
 
     getters: {
@@ -156,8 +159,8 @@ export function createQueryModule({
           assertQuery(query);
           return state.cache[query][key];
         };
-      }
-    }
+      },
+    },
   };
 }
 
@@ -166,10 +169,12 @@ export function mapQueries(namespace, map) {
     map = namespace;
     namespace = null;
   }
+
   const prefix = namespace ? `${namespace}/` : "";
   const computed = {};
   const queries = Object.keys(map);
-  queries.forEach(query => {
+
+  queries.forEach((query) => {
     const stateKey = `${query}State`;
     computed[stateKey] = function() {
       const payload = map[query].call(this);
@@ -187,6 +192,7 @@ export function mapQueries(namespace, map) {
       return this[stateKey].error;
     };
   });
+
   return computed;
 }
 
@@ -207,7 +213,7 @@ function objectContains(obj, props) {
   return true;
 }
 
-// Copied from https://github.com/tannerlinsley/react-query
+// Based on stableValueHash from https://github.com/tannerlinsley/react-query
 export function payloadToKey(value) {
   return JSON.stringify(value, (_, val) =>
     isPlainObject(val)
